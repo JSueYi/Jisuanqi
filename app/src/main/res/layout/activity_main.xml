@@ -2,24 +2,45 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
     >
 
-    <TextView
-        android:id="@+id/et_input"
-        android:layout_width="350dp"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="90dp"
         android:layout_marginTop="2dp"
-        android:background="@drawable/white_selector"
-        android:gravity="right|bottom"
-        android:paddingBottom="20dp"
-        android:paddingRight="20dp"
-        android:textSize="50sp"
-        android:layout_gravity="center"
-        tools:ignore="RtlHardcoded,RtlSymmetry" />
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/et_input"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_selector"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:textSize="40sp"
+            android:singleLine="true"
+            />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/et_output"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_selector"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:singleLine="true"
+            android:textSize="40sp" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -27,16 +48,17 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal"
         >
-        <TextView
-            android:id="@+id/et_output"
-            android:layout_width="170dp"
+        <Button
+            android:id="@+id/bt_point"
+            android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@drawable/white_selector"
+            android:text="."
             android:gravity="right|bottom"
-            android:paddingBottom="15dp"
-            android:paddingEnd="15dp"
-            android:textSize="50sp"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
+            android:textSize="30sp"
+            android:background="@drawable/white_selector"
+            android:paddingRight="15sp"
+            android:paddingBottom="15sp"
+            />
 
         <Button
             android:id="@+id/bt_clr"
@@ -62,6 +84,18 @@
             android:paddingRight="15sp"
             android:paddingBottom="15sp"
             />
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/bt_equal"
+            android:text="="
+            android:textSize="30sp"
+            android:gravity="right|bottom"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/white_selector"
+            android:paddingRight="15sp"
+            android:paddingBottom="15sp"
+            />
 
     </LinearLayout>
 
@@ -74,7 +108,7 @@
         >
 
         <Button
-            android:id="@+id/bt_l"
+            android:id="@+id/bt_left"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:text="("
@@ -86,7 +120,7 @@
             android:paddingBottom="15sp"
             />
         <Button
-            android:id="@+id/bt_r"
+            android:id="@+id/bt_right"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:text=")"
@@ -239,10 +273,21 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="3dp"
-        android:gravity="center_horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
 
+        <Button
+            android:id="@+id/bt_0"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/white_selector"
+            android:gravity="right|bottom"
+            android:paddingBottom="15sp"
+            android:paddingRight="15sp"
+            android:text="0"
+            android:textSize="30sp" />
         <Button
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -252,6 +297,7 @@
             android:gravity="right|bottom"
             android:background="@drawable/white_selector"
             android:paddingRight="15sp"
+            android:layout_marginLeft="10dp"
             android:paddingBottom="15sp"
             />
         <Button
@@ -278,19 +324,5 @@
             android:paddingRight="15sp"
             android:paddingBottom="15sp"
             />
-
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@+id/bt_equal"
-            android:text="="
-            android:textSize="30sp"
-            android:gravity="right|bottom"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/white_selector"
-            android:paddingRight="15sp"
-            android:paddingBottom="15sp"
-            />
-
     </LinearLayout>
 </LinearLayout>

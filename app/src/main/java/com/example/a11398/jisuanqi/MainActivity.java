@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button bt_add;
     private Button bt_sub;
     private Button bt_equal;
+    private Button bt_point;
     private Button bt_0;
     private Button bt_1;
     private Button bt_2;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void bindView() {
 
+        bt_point.setOnClickListener(this);
+        bt_0.setOnClickListener(this);
         bt_1.setOnClickListener(this);
         bt_2.setOnClickListener(this);
         bt_3.setOnClickListener(this);
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initData() {
         expression = "";
+        bt_point = findViewById(R.id.bt_point);
+        bt_0 = findViewById(R.id.bt_0);
         bt_1 = findViewById(R.id.bt_1);
         bt_2 = findViewById(R.id.bt_2);
         bt_3 = findViewById(R.id.bt_3);
@@ -80,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bt_9 = findViewById(R.id.bt_9);
         ed_input = findViewById(R.id.et_input);
         ed_output = findViewById(R.id.et_output);
-        bt_l = findViewById(R.id.bt_l);
-        bt_r = findViewById(R.id.bt_r);
+        bt_l = findViewById(R.id.bt_left);
+        bt_r = findViewById(R.id.bt_right);
         bt_clr = findViewById(R.id.bt_clr);
         bt_add = findViewById(R.id.bt_add);
         bt_sub = findViewById(R.id.bt_sub);
