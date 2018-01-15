@@ -1,5 +1,6 @@
 package com.example.a11398.jisuanqi;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Objects;
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -96,11 +98,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bt_del = findViewById(R.id.bt_del);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.bt_equal){
-            double result = calculate(expression);
-            ed_output.setText(String.valueOf(result));
+            if (!Objects.equals(expression, "")){
+                double result = calculate(expression);
+                if(result == -1.11111 ){
+                    ed_output.setText("Error");
+                }else {
+                    ed_output.setText(String.valueOf(result));
+                }
+            }
         }else if (v.getId() == R.id.bt_clr){
             expression = "";
             ed_input.setText(expression);
