@@ -103,11 +103,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.bt_equal){
             if (!Objects.equals(expression, "")){
-                double result = calculate(expression);
-                if(result == -1.11111 ){
+                try {
+                    double result = calculate(expression);
+                    if(result == -1.11111 ){
+                        ed_output.setText("Error");
+                    }else {
+                        ed_output.setText(String.valueOf(result));
+                    }
+                }catch (Exception e){
                     ed_output.setText("Error");
-                }else {
-                    ed_output.setText(String.valueOf(result));
                 }
             }
         }else if (v.getId() == R.id.bt_clr){

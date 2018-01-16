@@ -1,0 +1,20 @@
+@startuml
+title 提取操作数
+start
+:算术表达式，String expression;
+while(!expression处理完成)is(true)
+:当前处理的字符c,是表达式的第i个值;
+if(c是数字) then (yes)
+:j=i;
+while(expression[j]是（0-9|.）) is (true)
+:j++;
+endwhile(false)
+:temstring = expression.subString(i,j)
+提取的数字为Double.valueof(temstring)
+i=j-1;
+endif
+:i++;
+endwhile(false)
+:求完所有的数字;
+stop
+@enduml

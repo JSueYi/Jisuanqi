@@ -1,0 +1,22 @@
+@startuml
+title 整个循环过程
+start
+:初始化操作数栈,操作符栈，
+Stack<Double> num,
+Stack<Character> op;
+:在算术表达式后加‘#,向操作符栈压入'#';
+while(!表达式处理完成)is(true)
+:当前处理的字符c;
+if(c是数字) then (yes)
+:压入到num中;
+else (no)
+    if(当前操作符优先级>op栈顶 || 当前操作符为（或者op栈顶为（) then (yes)
+    :压入op中;
+    else (no)
+    :将num栈中最上面的两个数，按照当前操作符进行运算，并压入到num中;
+    endif
+endif
+endwhile(false)
+:num栈中的数据即为所求;
+stop
+@enduml
