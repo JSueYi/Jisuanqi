@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Objects;
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button bt_8;
     private Button bt_9;
     private String expression;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,14 +104,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.bt_equal){
             if (!Objects.equals(expression, "")){
                 try {
-                    double result = calculate(expression);
-                    if(result == -1.11111 ){
+                    double result = calculate(expression, getNum(expression));
+                    if(result == -2018.0117 ){
                         ed_output.setText("Error");
                     }else {
                         ed_output.setText(String.valueOf(result));
                     }
                 }catch (Exception e){
-                    ed_output.setText("Error");
+                    ed_output.setText(e.getMessage());
                 }
             }
         }else if (v.getId() == R.id.bt_clr){
@@ -134,77 +134,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private Double calculate(String expression) {
+    private Double calculate(String expression , String[] get_num){
         //标志结束
         expression = expression + '#';
+        int index_num = 0;
         Log.i(TAG, expression);
-        //定义符号栈和数字栈
-        Stack<Character> op = new Stack<>();
-        Stack<Double> num = new Stack<>();
+
+        //定义操作符栈和操作数栈
+        Stack<Character> Operator = new Stack<>();
+        Stack<Double> Operands = new Stack<>();
 
         //计算符号开始标志
-        op.push('#');
+        Operator.push('#');
 
         //处理表达式
         for (int i = 0; i < expression.length(); ++i){
 
             //存储一个字符串里面的一个数字
-            String num_string;
-            Double num_double;
+            Double number;
 
             //遇到数就压入数字栈里面
             if (expression.charAt(i) >='0'&&expression.charAt(i) <='9'
                     ||expression.charAt(i)=='.'){
-
-                int j = i+1;
-                while(expression.charAt(j) >='0'&&expression.charAt(j) <='9'
-                        ||expression.charAt(j)=='.'){
-                    j++;
+                if(index_num < get_num.length){
+                    number = Double.valueOf(get_num[index_num]);
+                    Operands.push(number);
                 }
-                num_string = expression.substring(i, j);
+                i = i + get_num[index_num].length() - 1;
+                index_num++;
+            }else{//处理操作符
 
-                num_double = Double.valueOf(num_string);
+                //当前操作符的优先级
+                int current_priority;
 
-                num.push(num_double);
+                //操作符栈的栈顶操作符的优先级
+                int peek_priority;
 
-                i = j - 1;
-            }else{
+                current_priority = getPriority(expression.charAt(i));
+                peek_priority = getPriority(Operator.peek());
 
-                //处理操作符
-                int current_priority, stack_priority;
-                current_priority = op2priority(expression.charAt(i));
-                stack_priority = op2priority(op.peek());
-
-                // ')'遇到'('则将二者全都出栈
-                if (current_priority == -1 && stack_priority == -1){
-                    return num.peek();
-                } else if (current_priority == 0 && stack_priority == 3){
-                    op.pop();
+                // '#'遇到'#'则结束
+                if (current_priority == -1 && peek_priority == -1){
+                    return Operands.peek();
+                } else if (current_priority == 0 && peek_priority == 3){  // ')'遇到'('则将二者全都出栈
+                    Operator.pop();
                 }else {
-                    if (current_priority > stack_priority || expression.charAt(i)=='('||op.peek()=='('){
-                        op.push(expression.charAt(i));
+                    if (current_priority > peek_priority || expression.charAt(i)=='('||Operator.peek()=='('){
+                        Operator.push(expression.charAt(i));
                     }else{
-                        if (num.size() >=2){
-                            double two  = num.peek();
-                            num.pop();
-                            double one = num.peek();
-                            num.pop();
-                            double three = calculate_temp(op.peek(),one, two);
-                            op.pop();
-                            num.push(three);
+                        //防止错误表达式，引起操作数栈错误
+                        if (Operands.size() >=2){
+                            double two  = Operands.peek();
+                            Operands.pop();
+                            double one = Operands.peek();
+                            Operands.pop();
+                            double three = handle(Operator.peek(),one, two);
+                            Operator.pop();
+                            Operands.push(three);
                             i--;
                         }else {
-                            return -1.11111;
+                            return -2018.0117;
                         }
                     }
                 }
 
             }
         }
-        return  -1.11111;
+        return  -2018.0117;
     }
 
-    private int op2priority(char c){
+    private int getPriority(char c){
         int priority;
         switch (c){
             case '+':
@@ -232,25 +231,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return priority;
     }
 
-    private double calculate_temp(char c, double one, double two){
-        double result;
-        switch (c){
+    private double handle(char op, double x, double y){
+        double z;
+        switch (op){
             case '+':
-                result = one + two;
+                z = x + y;
                 break;
             case '-':
-                result = one - two;
+                z = x - y;
                 break;
             case '×':
-                result = one * two;
+                z = x * y;
                 break;
             case '÷':
-                result = (one*1.0) / two;
+                z = (x*1.0) / y;
                 break;
             default:
-                result = -1;
+                z = -2018.0117;
                 break;
         }
-        return result;
+        return z;
     }
+
+    private String[] getNum(String expression){
+        //根据+，-，×，÷，（， ）提取数据
+        String[] tem_s = expression.split("[+\\-×÷()]");
+        int length=0;
+
+        //统计操作数个数
+        for (String s:tem_s) {
+            if(!s.equals("")){
+                length++;
+            }
+        }
+
+        //创建操作数数组
+        String [] num = new String[length];
+        int i =0;
+        for (String s:tem_s) {
+            if(!s.equals("")){
+                num[i] = s;
+                i++;
+            }
+        }
+        return num;
+    }
+
 }
